@@ -35,12 +35,14 @@ router.addHandler("DETAIL", async ({ request, page, log }) => {
     pdtDrivetrain,
   };
 
-  console.log(results);
-
-  await Dataset.pushData(results);
-
   log.debug(`Saving data: ${request.url}`);
   await Dataset.pushData(results);
+
+  console.log(results);
+
+  /* save results in key_value_stores' folder */
+  // await Dataset.exportToCSV("scrapped-data");
+  // await Dataset.exportToJSON("scrapped-data");
 });
 
 router.addHandler("CATEGORY", async ({ page, enqueueLinks, request, log }) => {

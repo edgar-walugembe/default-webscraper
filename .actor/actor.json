@@ -1,0 +1,7 @@
+{
+  "actorSpecification": 1,
+  "name": "carx-web-crawler",
+  "version": "1.0",
+  "buildTag": "latest",
+  "environmentVariables": {}
+}

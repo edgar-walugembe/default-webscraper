@@ -1,6 +1,8 @@
 import { PlaywrightCrawler, log } from "crawlee";
-
+import { Actor } from "apify";
 import { router } from "./routes.js";
+
+await Actor.init();
 
 log.setLevel(log.LEVELS.DEBUG);
 
@@ -11,8 +13,4 @@ const crawler = new PlaywrightCrawler({
 
 await crawler.run(["https://www.autotrader.ca/"]);
 
-// await crawler.exportData("./result.json");
-
-// // Or work with the data directly.
-// const data = await crawler.getData();
-// console.table(data.items);
+await Actor.exit();
