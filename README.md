@@ -1,9 +1,5 @@
 # Crawlee + PlaywrightCrawler + JavaScript project
 
-This template is a production ready boilerplate for developing with `PlaywrightCrawler`. Use this to bootstrap your projects using the most up-to-date code.
-
-If you're looking for examples or want to learn more visit:
-
-- [Documentation](https://crawlee.dev/api/playwright-crawler/class/PlaywrightCrawler)
-- [Examples](https://crawlee.dev/docs/examples/playwright-crawler)
-# web-scrapper-app
+This is web scraper for scrapping websites that contain javascript rendered pages.
+It scraps the some details about the products listed on the website and stores the collected results in the datasets folder in json format.
+It is also hosted on apify
