@@ -6,11 +6,14 @@
   "description": "This is an example of a Crawlee project.",
   "dependencies": {
     "apify": "^3.2.3",
+    "apify-client": "^2.9.3",
     "crawlee": "^3.0.0",
+    "dotenv": "^16.4.5",
     "playwright": "*"
   },
   "scripts": {
-    "start": "node src/main.js",
+    "start": "node src/vinnauto.js",
+    "vinnauto": "node src/vinnauto.js",
     "test": "echo \"Error: oops, the actor has no tests yet, sad!\" && exit 1",
     "postinstall": "npx crawlee install-playwright-browsers"
   },
