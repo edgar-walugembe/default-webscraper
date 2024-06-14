@@ -1,4 +1,10 @@
 import { createPlaywrightRouter, Dataset } from "crawlee";
+import { v4 as uuidv4 } from "uuid";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const dataset = await Dataset.open(process.env.DATASET_NAME_KIBANDA);
 
 /**** Scrapping Autotrader Website ****/
 export const router = createPlaywrightRouter();
@@ -8,36 +14,73 @@ router.addHandler("DETAIL", async ({ request, page, log }) => {
   log.debug(`Extracting data: ${request.url}`);
 
   const urlParts = request.url.split("/");
-  const manufacturer = urlParts[4];
+  const carManufacturer = urlParts[4];
 
-  const pdtName = await page.locator("h1.hero-title").textContent();
+  const carName = await page.locator("h1.hero-title").textContent();
 
-  const pdtStatus = await page.locator("span#spec-value-1").textContent();
+  const pattern = /\b\d{4}\b/;
 
-  const pdtBodyType = await page.locator("span#spec-value-3").textContent();
+  const match = carName.match(pattern);
+  const carYear = match ? match[0] : "No Year Found";
 
-  const pdtEngine = await page.locator("span#spec-value-4").textContent();
+  const carImage = await page.locator("img#mainPhotoModalMd").textContent();
 
-  const pdtDrivetrain = await page.locator("span#spec-value-7").textContent();
+  const carStatus = await page.locator("span#spec-value-1").textContent();
 
-  const pdtPrice = await page.locator(".pa-current-asking-price").textContent();
+  const carBodyType = await page.locator("span#spec-value-3").textContent();
 
-  const pdtMileage = await page.locator(".ca-current-mileage").textContent();
+  const carTrim = await page.locator("span#spec-value-2").textContent();
+
+  const carEngine = await page.locator("span#spec-value-4").textContent();
+
+  const carDrive = await page.locator("span#spec-value-7").textContent();
+
+  const carPrice = await page.locator(".pa-current-asking-price").textContent();
+
+  const carMileage = await page.locator(".ca-current-mileage").textContent();
+
+  const carDoors = await page.locator("span#spec-value-12").textContent();
+
+  const carExteriorColor = await page
+    .locator("span#spec-value-9")
+    .textContent();
+
+  const carInteriorColor = await page
+    .locator("span#spec-value-10")
+    .textContent();
+
+  const carFuelType = await page.locator("span#spec-value-13").textContent();
+
+  const carTransmission = await page.locator("span#spec-value-5").textContent();
+
+  const carDescription = await page
+    .locator("div#vdp-collapsible-content-text")
+    .textContent();
 
   const results = {
     url: request.url,
-    manufacturer,
-    pdtName,
-    pdtStatus,
-    pdtMileage,
-    pdtPrice,
-    pdtBodyType,
-    pdtEngine,
-    pdtDrivetrain,
+    id: uuidv4(),
+    carManufacturer,
+    carName,
+    carYear,
+    carImage,
+    carStatus,
+    carMileage,
+    carPrice,
+    carBodyType,
+    carTrim,
+    carEngine,
+    carDrive,
+    carDoors,
+    carExteriorColor,
+    carInteriorColor,
+    carFuelType,
+    carTransmission,
+    carDescription,
   };
 
   log.debug(`Saving data: ${request.url}`);
-  await Dataset.pushData(results);
+  await dataset.pushData(results);
 
   console.log(results);
 
