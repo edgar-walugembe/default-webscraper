@@ -1,4 +1,4 @@
-import { createPlaywrightRouter, Dataset } from "crawlee";
+import { createPlaywrightRouter } from "crawlee";
 import { v4 as uuidv4 } from "uuid";
 import dotenv from "dotenv";
 
@@ -7,7 +7,7 @@ dotenv.config();
 /**** Scrapping Autotrader Website ****/
 export const router = createPlaywrightRouter();
 
-router.addHandler("DETAIL", async ({ request, page, log }) => {
+router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
   //when in the detail page
   log.debug(`Extracting data: ${request.url}`);
 
@@ -116,7 +116,8 @@ router.addHandler("DETAIL", async ({ request, page, log }) => {
   };
 
   log.debug(`Saving data: ${request.url}`);
-  await Dataset.pushData(results);
+  // await Dataset.pushData(results);
+  await dataset.pushData(results);
 
   console.log(results);
 
