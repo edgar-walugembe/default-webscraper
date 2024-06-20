@@ -14,56 +14,81 @@ router.addHandler("DETAIL", async ({ request, page, log }) => {
   const urlParts = request.url.split("/");
   const carManufacturer = urlParts[4] || "Not Available";
 
-  const carName =
+  //Car Name
+  const carNameWithTrim =
     (await page.locator("h1.hero-title").textContent()) || "Not Available";
-
-  const pattern = /\b\d{4}\b/;
-
-  const match = carName.match(pattern);
-  const carYear = match ? match[0] : "No Year Found";
-
-  const carImage =
-    (await page.locator("img#mainPhotoModalMd").getAttribute("src")) ||
-    "Not Available";
-
-  const carStatus =
-    (await page.locator("span#spec-value-1").textContent()) || "Not Available";
-
-  const carBodyType =
-    (await page.locator("span#spec-value-3").textContent()) || "Not Available";
 
   const carTrim =
     (await page.locator("span#spec-value-2").textContent()) || "Not Available";
 
+  function getCarName(carNameWithTrim, carTrim) {
+    const trimIndex = carNameWithTrim.indexOf(carTrim);
+
+    if (trimIndex !== -1) {
+      return carNameWithTrim.substring(0, trimIndex).trim();
+    } else {
+      return carNameWithTrim;
+    }
+  }
+
+  const carName = getCarName(carNameWithTrim, carTrim);
+
+  //Car Year
+  const pattern = /\b\d{4}\b/;
+  const match = carName.match(pattern);
+  const carYear = match ? match[0] : "No Year Found";
+
+  //Car Image
+  const carImage =
+    (await page.locator("img#mainPhotoModalMd").getAttribute("src")) ||
+    "Not Available";
+
+  //Car Condition
+  const carStatus =
+    (await page.locator("span#spec-value-1").textContent()) || "Not Available";
+
+  //Car Body Type
+  const carBodyType =
+    (await page.locator("span#spec-value-3").textContent()) || "Not Available";
+
+  //Car Engine
   const carEngine =
     (await page.locator("span#spec-value-4").textContent()) || "Not Available";
 
+  //Car DriveTrain
   const carDrive =
     (await page.locator("span#spec-value-7").textContent()) || "Not Available";
 
+  //Car Price
   const carPrice =
     (await page.locator(".pa-current-asking-price").textContent()) ||
     "Not Available";
 
+  //Car Mileage
   const carMileage =
     (await page.locator(".ca-current-mileage").textContent()) ||
     "Not Available";
 
+  //Number of Car Doors
   const carDoors =
     (await page.locator("span#spec-value-12").textContent()) || "Not Available";
 
+  //Car Color
   const carExteriorColor =
     (await page.locator("span#spec-value-9").textContent()) || "Not Available";
 
   const carInteriorColor =
     (await page.locator("span#spec-value-10").textContent()) || "Not Available";
 
+  //Car Fuel Type
   const carFuelType =
     (await page.locator("span#spec-value-13").textContent()) || "Not Available";
 
+  //Car Transmission
   const carTransmission =
-    (await page.locator("span#spec-value-6").textContent()) || "Not Available"; //should be 6 even in apify
+    (await page.locator("span#spec-value-6").textContent()) || "Not Available";
 
+  //Car Description
   const carDescription =
     (await page.locator("div#vdp-collapsible-short-text").textContent()) ||
     "Not Available";
