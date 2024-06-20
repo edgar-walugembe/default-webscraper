@@ -119,10 +119,10 @@ router.addHandler("DETAIL", async ({ request, page, log }) => {
   await Dataset.pushData(results);
 
   console.log(results);
-  await Dataset.exportToCSV("scrapped-data");
-  await Dataset.exportToJSON("scrapped-data");
 
   /* save results in key_value_stores' folder */
+  // await Dataset.exportToCSV("scrapped-data");
+  // await Dataset.exportToJSON("scrapped-data");
 });
 
 router.addHandler("CATEGORY", async ({ page, enqueueLinks, request, log }) => {
