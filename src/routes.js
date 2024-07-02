@@ -6,6 +6,10 @@ dotenv.config();
 
 /**** Scrapping Autotrader Website ****/
 export const router = createPlaywrightRouter();
+router.addHandler("SLIDES", async ({ request, page, log, dataset }) => {
+  //when in the image slide
+  log.debug("Extracting slide images");
+});
 
 router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
   //when in the detail page
@@ -40,8 +44,17 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
 
   //Car Image
   const carImage =
-    (await page.locator("img#mainPhotoModalMd").getAttribute("src")) ||
+    (await page.locator("img#mainPhoto.loaded").getAttribute("src")) ||
     "Not Available";
+
+  //Other Images
+  await page.click("img#mainPhoto.loaded");
+
+  await page.waitForSelector(".gallery-thumbnail img");
+
+  const otherCarImages = await page.$$eval(".gallery-thumbnail img", (imgs) =>
+    imgs.map((img) => img.src)
+  );
 
   //Car Condition
   const carStatus =
@@ -93,13 +106,14 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
     (await page.locator("div#vdp-collapsible-short-text").textContent()) ||
     "Not Available";
 
-  const results = {
+  const carDetails = {
     url: request.url,
     id: uuidv4(),
     carManufacturer,
     carName,
     carYear,
     carImage,
+    otherCarImages,
     carStatus,
     carMileage,
     carPrice,
@@ -116,10 +130,10 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
   };
 
   log.debug(`Saving data: ${request.url}`);
-  // await Dataset.pushData(results);
-  await dataset.pushData(results);
+  // await Dataset.pushData(carDetails);
+  await dataset.pushData(carDetails);
 
-  console.log(results);
+  console.log(carDetails);
 
   /* save results in key_value_stores' folder */
   // await Dataset.exportToCSV("scrapped-data");
