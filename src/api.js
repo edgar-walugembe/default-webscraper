@@ -1,21 +1,33 @@
 import { ApifyClient } from "apify-client";
 import dotenv from "dotenv";
 
-// Load environment variables from .env file
 dotenv.config();
 
 (async () => {
   const client = new ApifyClient({
-    token: process.env.APIFY_TOKEN,
+    token: process.env.APIFY_TOKEN_AUTOTRADER,
   });
 
-  const dataset = client.dataset("mRYqtaKghLbJxQSUl");
+  const datasetId = process.env.DATASET_ID_AUTOTRADER;
 
-  const { items } = await dataset.listItems();
+  try {
+    // Delete the dataset
+    await client.httpClient.call({
+      url: `https://api.apify.com/v2/datasets/${datasetId}`,
+      method: "DELETE",
+    });
 
-  for (const item of items) {
-    console.log(item);
+    // Recreate the dataset
+    const newDataset = await client.httpClient.call({
+      url: `https://api.apify.com/v2/datasets`,
+      method: "POST",
+      data: {
+        name: datasetId,
+      },
+    });
+
+    console.log("Dataset cleared and recreated successfully");
+  } catch (error) {
+    console.error("Error clearing dataset:", error);
   }
-
-  // console.log(items);
 })();
