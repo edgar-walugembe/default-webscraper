@@ -5,12 +5,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 /**** Scrapping Autotrader Website ****/
-export const router = createPlaywrightRouter();
-router.addHandler("SLIDES", async ({ request, page, log, dataset }) => {
-  //when in the image slide
-  log.debug("Extracting slide images");
-});
-
 router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
   //when in the detail page
   log.debug(`Extracting data: ${request.url}`);
@@ -130,14 +124,10 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
   };
 
   log.debug(`Saving data: ${request.url}`);
-  // await Dataset.pushData(carDetails);
+
   await dataset.pushData(carDetails);
 
   console.log(carDetails);
-
-  /* save results in key_value_stores' folder */
-  // await Dataset.exportToCSV("scrapped-data");
-  // await Dataset.exportToJSON("scrapped-data");
 });
 
 router.addHandler("CATEGORY", async ({ page, enqueueLinks, request, log }) => {
