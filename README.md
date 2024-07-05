@@ -8,3 +8,7 @@ This code below will save the results of the scraper into the datasets folder in
 
 - await Dataset.exportToCSV("scrapped-data");
 - await Dataset.exportToJSON("scrapped-data");
+
+This saves the car details directly into the dataset
+
+- await dataset.pushData(carDetails);

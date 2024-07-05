@@ -125,7 +125,17 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
 
   log.debug(`Saving data: ${request.url}`);
 
-  await dataset.pushData(carDetails);
+  const existingData = await dataset.getData();
+  const isDuplicate = existingData.items.some(
+    (item) => item.url === carDetails.url
+  );
+
+  if (!isDuplicate) {
+    await dataset.pushData(carDetails);
+    console.log(carDetails);
+  } else {
+    log.debug(`Duplicate data found: ${request.url}`);
+  }
 
   console.log(carDetails);
 });
