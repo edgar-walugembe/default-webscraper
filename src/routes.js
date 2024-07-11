@@ -114,7 +114,7 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
     carBodyType,
     carTrim,
     carEngine,
-    carDrive,
+    carDrivetrain,
     carDoors,
     carExteriorColor,
     carInteriorColor,
