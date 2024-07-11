@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 /**** Scrapping Autotrader Website ****/
+export const router = createPlaywrightRouter();
 router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
   //when in the detail page
   log.debug(`Extracting data: ${request.url}`);
