@@ -101,7 +101,7 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
     "Not Available";
 
   const carDetails = {
-    url: request.url,
+    car_url: request.url,
     car_id: uuidv4(),
     carManufacturer,
     carName,
