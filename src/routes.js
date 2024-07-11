@@ -102,7 +102,7 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
 
   const carDetails = {
     url: request.url,
-    id: uuidv4(),
+    car_id: uuidv4(),
     carManufacturer,
     carName,
     carYear,
