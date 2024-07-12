@@ -2,7 +2,7 @@ import { PlaywrightCrawler, log } from "crawlee";
 import { Actor, Dataset } from "apify";
 
 import { router } from "./routes.js";
-import { removeDuplicatesFromDataset } from "./deduplicate.js";
+// import { removeDuplicatesFromDataset } from "./deduplicate.js";
 
 import dotenv from "dotenv";
 
@@ -25,6 +25,7 @@ const crawler = new PlaywrightCrawler({
 
 await crawler.run(["https://www.autotrader.ca/"]);
 
-await removeDuplicatesFromDataset(dataset);
+// this will be for the scheduled actor
+// await removeDuplicatesFromDataset(dataset);
 
 await Actor.exit();
