@@ -64,7 +64,7 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
     (await page.locator("span#spec-value-4").textContent()) || "Not Available";
 
   //Car DriveTrain
-  const carDrive =
+  const carDrivetrain =
     (await page.locator("span#spec-value-7").textContent()) || "Not Available";
 
   //Car Price
