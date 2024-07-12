@@ -126,17 +126,21 @@ router.addHandler("DETAIL", async ({ request, page, log, dataset }) => {
 
   log.debug(`Saving data: ${request.url}`);
 
-  const existingData = await dataset.getData();
-  const isDuplicate = existingData.items.some(
-    (item) => item.url === carDetails.url
-  );
+  await dataset.pushData(carDetails);
 
-  if (!isDuplicate) {
-    await dataset.pushData(carDetails);
-    console.log(carDetails);
-  } else {
-    log.debug(`Duplicate data found: ${request.url}`);
-  }
+  // this will be useful for the scheduled actor..
+
+  // const existingData = await dataset.getData();
+  // const isDuplicate = existingData.items.some(
+  //   (item) => item.url === carDetails.url
+  // );
+
+  // if (!isDuplicate) {
+  //   await dataset.pushData(carDetails);
+  //   console.log(carDetails);
+  // } else {
+  //   log.debug(`Duplicate data found: ${request.url}`);
+  // }
 
   console.log(carDetails);
 });

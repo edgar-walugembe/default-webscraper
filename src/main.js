@@ -25,7 +25,7 @@ const crawler = new PlaywrightCrawler({
 
 await crawler.run(["https://www.autotrader.ca/"]);
 
-// this will be for the scheduled actor
+// this will be useful for the scheduled actor..
 // await removeDuplicatesFromDataset(dataset);
 
 await Actor.exit();
