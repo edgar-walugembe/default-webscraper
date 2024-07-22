@@ -15,7 +15,8 @@
     "uuid": "^10.0.0"
   },
   "scripts": {
-    "start": "node src/main.js",
+    "start_a": "node src/main-autotrader.js",
+    "start_k": "node src/main-kijijiautos.js",
     "test": "echo \"Error: oops, the actor has no tests yet, sad!\" && exit 1",
     "postinstall": "npx crawlee install-playwright-browsers"
   },

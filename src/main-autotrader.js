@@ -15,7 +15,7 @@ log.setLevel(log.LEVELS.DEBUG);
 log.debug("Setting up crawler.");
 
 //Initialize a default dataset where data wil be stored
-const dataset = await Dataset.open(process.env.DATASET_NAME);
+const dataset = await Dataset.open(process.env.DATASET_NAME_AUTOTRADER);
 
 const crawler = new PlaywrightCrawler({
   requestHandler: async ({ request, page, log, enqueueLinks }) => {

@@ -73,42 +73,63 @@
 //   }
 // })();
 
-import { ApifyClient } from "apify-client";
-import dotenv from "dotenv";
+// import { ApifyClient } from "apify-client";
+// import dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 
-(async () => {
-  const client = new ApifyClient({
-    token: process.env.APIFY_TOKEN_AUTOTRADER,
-  });
+// (async () => {
+//   const client = new ApifyClient({
+//     token: process.env.APIFY_TOKEN_AUTOTRADER,
+//   });
 
-  const datasetId = process.env.DATASET_ID_AUTOTRADER;
+//   const datasetId = process.env.DATASET_ID_AUTOTRADER;
 
-  try {
-    // Fetch dataset using client
-    const dataset = client.dataset(datasetId);
+//   try {
+//     // Fetch dataset using client
+//     const dataset = client.dataset(datasetId);
 
-    // Get all items
-    const { items } = await dataset.listItems();
+//     // Get all items
+//     const { items } = await dataset.listItems();
 
-    // Check if there are any items
-    if (items.length > 0) {
-      console.log("Items in the dataset:", items); // Log items to inspect structure
+//     // Check if there are any items
+//     if (items.length > 0) {
+//       console.log("Items in the dataset:", items); // Log items to inspect structure
 
-      // Delete the last item in the dataset
-      const lastItem = items[items.length - 1];
+//       // Delete the last item in the dataset
+//       const lastItem = items[items.length - 1];
 
-      // Delete the last item
-      await client.datasets.deleteItem({
-        datasetId: datasetId,
-      });
+//       // Delete the last item
+//       await client.datasets.deleteItem({
+//         datasetId: datasetId,
+//       });
 
-      console.log("Last item deleted:", lastItem);
-    } else {
-      console.log("The dataset is empty.");
+//       console.log("Last item deleted:", lastItem);
+//     } else {
+//       console.log("The dataset is empty.");
+//     }
+//   } catch (error) {
+//     console.error("Error deleting items:", error);
+//   }
+// })();
+
+import axios from "axios";
+
+const datasetId = "hdl0a2v26vvQAWcca";
+const apiKey = "apify_api_c7MXR0s87ZuhhXBuLNizbJSl8eDzOT2Ox2fR";
+
+axios
+  .get(`https://api.apify.com/v2/datasets/${datasetId}/items?token=${apiKey}`)
+  .then((response) => {
+    let data = response.data;
+
+    // Check and remove the last item if it has no car information
+    if (data[data.length - 1].car_id === "null") {
+      data.pop();
     }
-  } catch (error) {
-    console.error("Error deleting items:", error);
-  }
-})();
+
+    console.log(data);
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+  });
